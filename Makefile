@@ -14,7 +14,7 @@ assemble:
 	for f in build/s/*.s; do $(CA65) --cpu 65c02 $$f -o build/o/`basename $$f .s`.o; done
 
 link:
-	$(LD65) build/o/*.o -o build/kernel.bin -m build/kernel.map -C ocmos.cfg
+	$(LD65) build/o/*.o -o build/kernel.bin -m build/kernel.map -C ocmos.cfg c64.lib
 
 clean:
 	rm -rf build/s build/o build/kernel.bin build/kernel.map
