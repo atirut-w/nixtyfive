@@ -7,7 +7,7 @@ build: compile assemble link
 compile:
 	mkdir -p build/s
 	find src/ -name '*.s' -exec cp {} build/s/ \;
-	find src/ -name '*.c' -exec sh -c '$(CC65) -T -t none --cpu 65c02 -Osir {} -o build/s/$$(basename {} .c).s' \;
+	find src/ -name '*.c' -exec sh -c '$(CC65) -T -t none --cpu 65c02 -Osir -Isrc/include {} -o build/s/$$(basename {} .c).s' \;
 
 assemble:
 	mkdir -p build/o
