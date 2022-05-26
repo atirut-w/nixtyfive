@@ -9,7 +9,9 @@
     lda #$07
     sta $2ff
 
-    ; Yank the interrupt vectors from the BIOS. We don't want the BIOS to process them.
+    rmb0 $00 ; Unmap the ROM
+
+    ; Set up a dummy IRQ and NMI handler
     lda #<int_handler
     ldx #>int_handler
 
