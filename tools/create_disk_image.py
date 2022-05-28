@@ -5,10 +5,9 @@ import subprocess
 
 def main(args: Namespace):
     if getsize(args.bootloader) > 512:
-        print("Bootloader is too large")
-        return 1
+        raise ValueError("Bootloader is too large")
 
-    with open(args.output + ".uncompressed", "wb") as f:
+    with open(args.uuid + ".bin.uncompressed", "wb") as f:
         f.write(b"CAB!") # CAB boot sector, no text boot records
         f.write(b"\x00\x1a\xca\xbd") # Start of binary boot records
 
@@ -23,8 +22,9 @@ def main(args: Namespace):
             f.write(b.read())
 
     # Compress the image using GZIP. Do remove original file.
-    subprocess.run(["gzip", "-fk", args.output + ".uncompressed"])
-    subprocess.run(["mv", args.output + ".uncompressed.gz", args.output])
+    subprocess.run(["gzip", "-fk", args.uuid + ".bin.uncompressed"])
+    subprocess.run(["mv", args.uuid + ".bin.uncompressed.gz", args.output])
+    subprocess.run(["rm", args.uuid + ".bin.uncompressed"])
 
     return 0
 
@@ -38,6 +38,8 @@ if __name__ == '__main__':
     # # FAT16 root directory
     # parser.add_argument("-r", "--root", dest="root", required=True)
 
+    # Disk component UUID
+    parser.add_argument("-u", "--uuid", dest="uuid", required=True)
     # Output file
     parser.add_argument("-o", "--output", dest="output", required=True)
 
