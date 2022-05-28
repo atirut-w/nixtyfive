@@ -16,5 +16,9 @@ assemble:
 link:
 	$(LD65) build/o/*.o -o build/kernel.bin -m build/kernel.map -C ocmos.cfg c64.lib
 
+bootloader:
+	$(CA65) bootloader.s -o build/bootloader.o
+	$(LD65) build/bootloader.o -o build/bootloader.bin -m build/bootloader.map -C ocmos.cfg
+
 clean:
 	rm -rf build/o build/s
