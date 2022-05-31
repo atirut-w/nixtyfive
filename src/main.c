@@ -1,10 +1,5 @@
 #include "peekpoke.h"
-
-void print(const char *str) {
-    while (*str) {
-        POKE(0x2ff, *str++);
-    }
-}
+#include "terminal.h"
 
 void main() {
     print("Hello, world!\n");
