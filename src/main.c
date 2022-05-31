@@ -1,8 +1,8 @@
-#define POKE(addr, val) *(volatile unsigned char *)(addr) = (val)
+#include "peekpoke.h"
 
 void print(const char *str) {
     while (*str) {
-        POKE(0x02ff, *str++);
+        POKE(0x2ff, *str++);
     }
 }
 
