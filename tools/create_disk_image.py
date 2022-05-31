@@ -4,26 +4,22 @@ import subprocess
 
 
 def main(args: Namespace):
-    if getsize(args.bootloader) > 512:
-        raise ValueError("Bootloader is too large")
+    with open(args.output, "wb") as f:
+        with open(args.disk, "rb") as f2:
+            f.write(f2.read())
 
-    with open(args.output + ".uncompressed", "wb") as f:
-        f.write(b"CAB!") # CAB boot sector, no text boot records
-        f.write(b"\x00\x1a\xca\xbd") # Start of binary boot records
+        if args.bootloader is not None:
+            if getsize(args.bootloader) > 512:
+                raise ValueError("Bootloader is too large")
 
-        f.write((8 + len(b"OCMOS") + 1).to_bytes(1, "little")) # Record length
-        f.write((0x40 + 0x80).to_bytes(1, "little")) # Record flags(load start is sector num, start and length LE)
-        f.write((2).to_bytes(2, "little")) # Load start at sector 2
-        f.write(getsize(args.bootloader).to_bytes(4, "little")) # Length of bootloader
-        f.write(b"OCMOS\x00") # Architecture ID
-
-        f.seek(512, 0) # Seek to sector 2
-        with open(args.bootloader, "rb") as b:
-            f.write(b.read())
-
-    # Compress the image using GZIP. Do remove original file.
-    subprocess.run(["gzip", "-f", args.output + ".uncompressed"], check=True)
-    subprocess.run(["mv", args.output + ".uncompressed.gz", args.output], check=True)
+            with open(args.bootloader, "rb") as f2:
+                f.seek(0)
+                f.write(f2.read(3)) # JMP $xxxx
+                f.seek(args.address)
+                f.write(f2.read())
+        else:
+            f.seek(0xfe)
+            f.write(b"\x00\x00") # Remove boot sector signature
 
     return 0
 
@@ -32,12 +28,14 @@ if __name__ == '__main__':
     parser = ArgumentParser(
         description="Create a CAB-bootable disk image with bootloader")
 
-    # Bootloader binary file
-    parser.add_argument("-b", "--bootloader", dest="bootloader", required=True)
-    # # FAT16 root directory
-    # parser.add_argument("-r", "--root", dest="root", required=True)
+    # Base disk image
+    parser.add_argument("disk", help="Base disk image")
+    # Optional bootloader
+    parser.add_argument("-b", "--bootloader", help="Bootloader", required=None)
+    # At what address should the bootloader be placed?
+    parser.add_argument("-a", "--address", type=int, default=0x3e, help="Address of bootloader")
 
     # Output file
-    parser.add_argument("-o", "--output", dest="output", required=True)
+    parser.add_argument("-o", "--output", dest="output", default="disk.img")
 
     exit(main(parser.parse_args()))
