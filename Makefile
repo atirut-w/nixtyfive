@@ -17,4 +17,4 @@ link:
 	$(LD65) build/o/*.o -o build/kernel.bin -m build/kernel.map -C ocmos.cfg c64.lib
 
 clean:
-	rm -rf build/*
+	rm -rf build/o build/s
