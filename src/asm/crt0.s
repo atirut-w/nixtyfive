@@ -1,4 +1,4 @@
-.export __STARTUP__, _boot_device_addr
+.export __STARTUP__, _boot_uuid
 .import _main
 .importzp sp, ptr1, ptr2
 
@@ -21,14 +21,14 @@
     sta $fffa ; NMI
     stx $fffb
 
-    ; Save the address of the boot device.
-    lda #$00 ; Source address
-    ldx #$20
+    ; Save the UUID of the boot device.
+    lda #$20 ; Source address
+    ldx #$00
     sta ptr1
     stx ptr1+1
 
-    lda #<_boot_device_addr ; Destination address
-    ldx #>_boot_device_addr
+    lda #<_boot_uuid ; Destination address
+    ldx #>_boot_uuid
     sta ptr2
     stx ptr2+1
 
@@ -58,4 +58,4 @@ hang: jmp hang
 stack_begin: .res 128
 stack_end:
 
-_boot_device_addr: .res 16
+_boot_uuid: .res 16
