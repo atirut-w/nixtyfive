@@ -1,36 +1,23 @@
 #include "peekpoke.h"
 #include "terminal.h"
-#include "component.h"
+#include "uif.h"
+#include <string.h>
 
 extern char boot_uuid[16];
-component_data_t components[16];
 
 void main() {
-    char i;
+    uif_reset(UIF_PORT1);
+    print("UIF port 1 reset\r");
 
-    print("Listing components...\r");
-
-    reset_component_list_cursor();
-    for (i = 0; i < 16; i++) {
-        read_component(&components[i]);
-        next_component();
-    }
-
-    print("Slot UUID                              Name\r");
-    print("-------------------------------------------\r");
-
-    for (i = 0; components[i].name[0] != 0xff; i++) {
-        printbyte(i);
-        print("   ");
-        printuuid(components[i].uuid);
-        print("  ");
-        print(components[i].name);
-        print("\r");
-    }
-
-    print("\rBooted from ");
+    print("Send `getLabel()` to \r");
     printuuid(boot_uuid);
     print("\r");
+    uif_write_tag(UIF_PORT1, UIFTAG_UUID);
+    uif_write_uuid(UIF_PORT1, boot_uuid);
+    uif_write_string(UIF_PORT1, "getLabel");
+
+    print("Response tag: ");
+    printbyte(uif_read_byte(UIF_PORT1));
 
     print("\rOk!\r");
 }
