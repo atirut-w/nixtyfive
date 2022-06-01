@@ -1,6 +1,8 @@
 {
     "files.associations": {
-        "memory.h": "c"
+        "memory.h": "c",
+        "peekpoke.h": "c",
+        "terminal.h": "c"
     },
     "C_Cpp.default.includePath": [
         "${workspaceFolder}/src/include"
