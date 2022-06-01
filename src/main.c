@@ -4,16 +4,18 @@
 
 void main() {
     component_data_t data;
-    char i;
+    char i, j;
 
-    print("Hello, world!\r\r");
+    print("Slot UUID                              Name\r");
+    print("-------------------------------------------\r");
 
     reset_component_list_cursor();
     read_component(&data);
     for (i = 0; data.name[0] != 0xff; i++) {
-        print("Component ");
         printbyte(i);
-        print(": ");
+        print("   ");
+        printuuid(data.uuid);
+        print("  ");
         print(data.name);
         print("\r");
 
