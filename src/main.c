@@ -3,29 +3,32 @@
 #include "component.h"
 
 extern char boot_uuid[16];
+component_data_t components[16];
 
 void main() {
-    component_data_t data;
-    char i, j;
+    char i;
+
+    print("Listing components...\r");
+
+    reset_component_list_cursor();
+    for (i = 0; i < 16; i++) {
+        read_component(&components[i]);
+        next_component();
+    }
 
     print("Slot UUID                              Name\r");
     print("-------------------------------------------\r");
 
-    reset_component_list_cursor();
-    read_component(&data);
-    for (i = 0; data.name[0] != 0xff; i++) {
+    for (i = 0; components[i].name[0] != 0xff; i++) {
         printbyte(i);
         print("   ");
-        printuuid(data.uuid);
+        printuuid(components[i].uuid);
         print("  ");
-        print(data.name);
+        print(components[i].name);
         print("\r");
-
-        next_component();
-        read_component(&data);
     }
 
-    print("Boot device UUID: ");
+    print("\rBooted from ");
     printuuid(boot_uuid);
     print("\r");
 
