@@ -30,3 +30,13 @@ void uif_write_string(short portaddr, char *str) {
         POKE(portaddr, str[i]);
     }
 }
+
+void uif_read_string(short portaddr, char *buff) {
+    char i;
+    short len = uif_read_byte(portaddr);
+
+    for (i = 0; i < len; i++) {
+        buff[i] = uif_read_byte(portaddr);
+    }
+    buff[i] = '\0';
+}

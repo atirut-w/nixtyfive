@@ -13,20 +13,20 @@
 #define UIFSTAT_CMD_NOACK 0xff
 
 #define UIFTAG_UUID 0xfff8
+#define UIFTAG_END 0xffff
 
 // Reset a UIF port
 void uif_reset(short portaddr);
-
 // Read a byte from a UIF port
 char uif_read_byte(short portaddr);
-
-// Swap endianness of a UIF tag and write it to the UIF port
+// Swap endianness of a UIF tag and write it to a UIF port
 void uif_write_tag(short portaddr, short tag);
-
 // Write a UUID to a UIF port
 void uif_write_uuid(short portaddr, char *uuid);
-
 // Write a string to a UIF port
 void uif_write_string(short portaddr, char *str);
+
+// Read a string from a UIF port
+void uif_read_string(short portaddr, char *buff);
 
 #endif
