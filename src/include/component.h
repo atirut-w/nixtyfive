@@ -1,5 +1,4 @@
-#ifndef COMPONENT_H_INCLUDED
-#define COMPONENT_H_INCLUDED
+#pragma once
 
 // Information about a component
 typedef struct {
@@ -13,5 +12,3 @@ void reset_component_list_cursor();
 void read_component(component_data_t *data);
 // Go to the next component in the component list port.
 void next_component();
-
-#endif

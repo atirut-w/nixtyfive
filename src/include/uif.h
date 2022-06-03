@@ -1,5 +1,4 @@
-#ifndef UIF_H_INCLUDED
-#define UIF_H_INCLUDED
+#pragma once
 
 #define UIF_PORT1 0x240
 #define UIF_PORT2 0x242
@@ -28,5 +27,3 @@ void uif_write_string(short portaddr, char *str);
 
 // Read a string from a UIF port
 void uif_read_string(short portaddr, char *buff);
-
-#endif
