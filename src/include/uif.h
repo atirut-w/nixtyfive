@@ -17,8 +17,6 @@
 void uif_reset_port1();
 void uif_reset_port2();
 
-// Read a byte from a UIF port
-char uif_read_byte(volatile char* portaddr);
 // Swap endianness of a UIF tag and write it to a UIF port
 void uif_write_tag(volatile char* portaddr, short tag);
 // Write a UUID to a UIF port
