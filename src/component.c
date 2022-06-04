@@ -1,7 +1,7 @@
 #include "component.h"
 #include "peekpoke.h"
 
-void reset_component_list_cursor() {
+void complist_start() {
     POKE(0x246, 0xff);
 }
 

@@ -7,7 +7,7 @@ typedef struct {
 } component_data_t;
 
 // Reset the cursor of the component list port.
-void reset_component_list_cursor();
+void complist_start();
 // Read component data from the component list port.
 void read_component(component_data_t *data);
 // Go to the next component in the component list port.

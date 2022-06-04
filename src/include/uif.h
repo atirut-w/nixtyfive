@@ -24,5 +24,7 @@ void uif_write_uuid(volatile char* portaddr, char *uuid);
 // Write a string to a UIF port
 void uif_write_string(volatile char* portaddr, char *str);
 
+// Swap endianness of a UIF tag and read it from a UIF port
+short uif_read_tag(volatile char* portaddr);
 // Read a string from a UIF port
 void uif_read_string(volatile char* portaddr, char *buff);
