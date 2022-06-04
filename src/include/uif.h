@@ -1,7 +1,7 @@
 #pragma once
 
-#define UIF_PORT1 0x240
-#define UIF_PORT2 0x242
+#define UIF_PORT1 (volatile char*)0x240
+#define UIF_PORT2 (volatile char*)0x242
 
 #define UIFSTAT_CMD_ACK 0x00
 #define UIFSTAT_UNK_ERR 0x01
@@ -15,15 +15,15 @@
 #define UIFTAG_END 0xffff
 
 // Reset a UIF port
-void uif_reset(short portaddr);
+void uif_reset(volatile char* portaddr);
 // Read a byte from a UIF port
-char uif_read_byte(short portaddr);
+char uif_read_byte(volatile char* portaddr);
 // Swap endianness of a UIF tag and write it to a UIF port
-void uif_write_tag(short portaddr, short tag);
+void uif_write_tag(volatile char* portaddr, short tag);
 // Write a UUID to a UIF port
-void uif_write_uuid(short portaddr, char *uuid);
+void uif_write_uuid(volatile char* portaddr, char *uuid);
 // Write a string to a UIF port
-void uif_write_string(short portaddr, char *str);
+void uif_write_string(volatile char* portaddr, char *str);
 
 // Read a string from a UIF port
-void uif_read_string(short portaddr, char *buff);
+void uif_read_string(volatile char* portaddr, char *buff);
