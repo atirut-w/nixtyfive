@@ -2,16 +2,25 @@
 #include "peekpoke.h"
 #include <string.h>
 
-void uif_reset(volatile char* portaddr) {
-    // Read and write a single byte to a port, then keep reading until overflow flag is set(BVS/BVC)
+void uif_reset_port1() {
     asm volatile (
-        "lda 0x242\n"
-        "sta 0x242\n"
+        "lda $240\n"
+        "sta $240\n"
     "loop:\n"
         "clv\n"
-        "lda 0x242\n"
+        "lda $240\n"
         "bvc loop\n"
-        : : "m"(portaddr)
+    );
+}
+
+void uif_reset_port2() {
+    asm volatile (
+        "lda $242\n"
+        "sta $242\n"
+    "loop:\n"
+        "clv\n"
+        "lda $242\n"
+        "bvc loop\n"
     );
 }
 

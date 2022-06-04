@@ -14,8 +14,9 @@
 #define UIFTAG_UUID 0xfff8
 #define UIFTAG_END 0xffff
 
-// Reset a UIF port
-void uif_reset(volatile char* portaddr);
+void uif_reset_port1();
+void uif_reset_port2();
+
 // Read a byte from a UIF port
 char uif_read_byte(volatile char* portaddr);
 // Swap endianness of a UIF tag and write it to a UIF port

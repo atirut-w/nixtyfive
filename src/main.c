@@ -7,7 +7,7 @@ int main() {
     print("\7"); // Beep
     
     print("Resetting UIF component port... ");
-    uif_reset(UIF_PORT2);
+    uif_reset_port2();
     print("done.\r");
 
     print("\rOk!\r");
