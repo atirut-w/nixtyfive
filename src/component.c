@@ -6,9 +6,7 @@ void reset_component_list_cursor() {
 }
 
 void read_component(component_data_t *data) {
-    char i;
-
-    for (i = 0; 1; i++) {
+    for (int i = 0; i < 16; i++) {
         data->name[i] = PEEK(0x246);
         if (data->name[i] == 0) {
             break;
@@ -17,7 +15,7 @@ void read_component(component_data_t *data) {
         }
     }
 
-    for (i = 0; i < 16; i++) {
+    for (int i = 0; i < 16; i++) {
         data->uuid[i] = PEEK(0x246);
     }
 }
