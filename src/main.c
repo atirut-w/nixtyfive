@@ -1,30 +1,32 @@
 #include "peekpoke.h"
 #include "terminal.h"
-#include "uif.h"
-#include <string.h>
+#include "component.h"
+// #include <stdlib.h>
 
-extern char boot_uuid[16];
-char strbuffer[32];
+int main() {
+    POKE(0x2ff, 7);
+    print("Hello, world!\r");
 
-void main() {
-    uif_reset(UIF_PORT2);
-    print("UIF port 2 reset\r");
+    print("Slot UUID\r");
+    print("---------------------------\r");
 
-    print("Send `getLabel()` to ");
-    printuuid(boot_uuid);
-    print("\r");
+    component_data_t component;
+    reset_component_list_cursor();
+    read_component(&component);
 
-    uif_write_tag(UIF_PORT2, UIFTAG_UUID);
-    uif_write_uuid(UIF_PORT2, boot_uuid);
-    uif_write_string(UIF_PORT2, "getLabel");
-    uif_write_tag(UIF_PORT2, UIFTAG_END);
+    for (int i = 0; component.name[0] != 0xff; i++) {
+        print("$");
+        printbyte(i);
+        print("  ");
+        printuuid(component.uuid);
+        print(" ");
+        print(component.name);
 
-    print("Response tag: ");
-    printbyte(uif_read_byte(UIF_PORT2));
-    print("\rResponse: ");
-    uif_read_string(UIF_PORT2, strbuffer);
-    print(strbuffer);
-    print("\r");
+        print("\r");
+        next_component();
+        read_component(&component);
+    }
 
     print("\rOk!\r");
+    return 0;
 }
